@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Schema = mongooes.Schema;
+var Schema = mongoose.Schema;
 
 var BookSchema = Schema ({
   title : { type: String, required: true },

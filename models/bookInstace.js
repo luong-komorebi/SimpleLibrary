@@ -1,4 +1,4 @@
-var moongose = require('mongoose');
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BookInstanceSchema = Schema ({
