@@ -1,4 +1,5 @@
-![[Logo of the project](https://www.youtube.com/watch?v=tEuG5D3HNGc)](http://i.imgur.com/FlluGFA.png)
+[![Logo of the project](http://i.imgur.com/FlluGFA.png)](https://www.youtube.com/watch?v=tEuG5D3HNGc)
+*Video demo*
 
 # Simple Library Management System
 > Made with Express and MongoDB  
