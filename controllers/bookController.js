@@ -15,7 +15,7 @@ exports.index = function (req, res) {
       BookInstance.count(callback);
     },
     book_instance_available_count: function (callback) {
-      BookInstance.count({ status: 'available'}, callback);
+      BookInstance.count({ status: 'Available'}, callback);
     },
     author_count: function (callback) {
       Author.count(callback);
