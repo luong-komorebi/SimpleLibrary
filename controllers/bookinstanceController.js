@@ -164,8 +164,7 @@ exports.bookinstance_update_post = function (req, res, next) {
   else {
     // Data from form is valid
     BookInstance.findByIdAndUpdate(req.params.id, bookinstance, {}, function (err, thebookinstance) {
-      if (err) { return next(err); }
-      //successful - redirect to genre detail page.
+      if (err) return next(err); 
       res.redirect(thebookinstance.url);
     });
   }
