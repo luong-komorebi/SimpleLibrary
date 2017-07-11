@@ -53,7 +53,7 @@ app.use(function(err, req, res, next) {
 
 //set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://luongvo:l94!CJ1JaHW4hK0f#B@ds153392.mlab.com:53392/luongvo_local_library';
+var mongoDB = process.env.MONGODB_URI || 'mongodb://luongvo:l94!CJ1JaHW4hK0f#B@ds153392.mlab.com:53392/luongvo_local_library';
 mongoose.connect(mongoDB);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDb connnection error: '));
