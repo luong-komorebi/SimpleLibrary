@@ -11,7 +11,7 @@ block content
       input#family_name.form-control(type='text', placeholder='Family name (surname)' name='family_name' required='true' value=(undefined===author ? '' : author.family_name))
     div.form-group
       label(for='date_of_birth') Date of birth:
-      input#date_of_birth.form-control(type='date', name='date_of_birth', value=(undefined===author ? '' : author.date_of_birth) )
+      input#date_of_birth.form-control(type='date', name='date_of_birth', value=(undefined===author ? '' : author.date_of_birth_yyyy_mm_dd) )
     div.form-group
       label(for='date_of_death') Date of death:
       input#date_of_death.form-control(type='date', name='date_of_death' value=(undefined===author ? '' : author.date_of_death_yyyy_mm_dd) )
