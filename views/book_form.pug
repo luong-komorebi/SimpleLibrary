@@ -29,6 +29,9 @@ block content
       label(for='isbn') ISBN:
       input#isbn.form-control(type='text', placeholder='ISBN13' name='isbn' value=(undefined===book ? '' : book.isbn) required='true') 
     div.form-group
+      label(for='code') Barcode:
+      input#barcode.form-control(type='text', placeholder='Barcode' name='code' value=(undefined===book ? '' : book.code) required='true')
+    div.form-group
       label Genre:
       div
         for genre in genres

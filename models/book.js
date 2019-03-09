@@ -7,6 +7,7 @@ var BookSchema = Schema ({
   summary: { type: String, required: true },
   isbn: { type: String, required: true },
   genre: [{ type: Schema.ObjectId, ref: 'Genre' }],
+  code: {type: String, required: true}
 });
 
 BookSchema

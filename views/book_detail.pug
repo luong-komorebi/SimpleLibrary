@@ -7,6 +7,7 @@ block content
     a(href=book.author.url) #{book.author.name}
   p #[strong Summary:] #{book.summary}
   p #[strong ISBN:] #{book.isbn}
+  p #[strong Barcode:] #{book.code}
   p #[strong Genre:]&nbsp;
     each val in book.genre
       a(href=val.url) #{val.name}

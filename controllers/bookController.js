@@ -75,29 +75,11 @@ exports.book_create_get = function (req, res, next) {
 
 // Handle book create on POST
 exports.book_create_post = function (req, res, next) {
-  req.checkBody('title', 'Title must not be empty.').notEmpty();
-  req.checkBody('author', 'Author must not be empty').notEmpty();
-  req.checkBody('summary', 'Summary must not be empty').notEmpty();
-  req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
 
-  req.sanitize('title').escape();
-  req.sanitize('author').escape();
-  req.sanitize('summary').escape();
-  req.sanitize('isbn').escape();
-  req.sanitize('title').trim();
-  req.sanitize('author').trim();
-  req.sanitize('summary').trim();
-  req.sanitize('isbn').trim();
-  req.sanitize('genre').escape();
+  sanitizeRequest(req);
+  validateRequest(req);
 
-  var book = new Book({
-    title: req.body.title,
-    author: req.body.author,
-    summary: req.body.summary,
-    isbn: req.body.isbn,
-    genre: (typeof req.body.genre === 'undefined') ? [] : req.body.genre.split(",")
-  });
-
+  var book = createBookFromRequest(req);
   console.log('BOOK: ' + book);
 
   var errors = req.validationErrors();
@@ -195,8 +177,7 @@ exports.book_delete_post = function (req, res, next) {
 // Display book update form on GET
 exports.book_update_get = function(req, res, next) {
 
-  req.sanitize('id').escape();
-  req.sanitize('id').trim();
+  sanitizeId(req);
 
   //Get book, authors and genres for form
   async.parallel({
@@ -227,35 +208,11 @@ exports.book_update_get = function(req, res, next) {
 
 // Handle book update on POST
 exports.book_update_post = function (req, res, next) {
-  //Sanitize id passed in. 
-  req.sanitize('id').escape();
-  req.sanitize('id').trim();
+  
+  sanitizeRequest(req);
+  validateRequest(req);
 
-  //Check other data
-  req.checkBody('title', 'Title must not be empty.').notEmpty();
-  req.checkBody('author', 'Author must not be empty').notEmpty();
-  req.checkBody('summary', 'Summary must not be empty').notEmpty();
-  req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
-
-  req.sanitize('title').escape();
-  req.sanitize('author').escape();
-  req.sanitize('summary').escape();
-  req.sanitize('isbn').escape();
-  req.sanitize('title').trim();
-  req.sanitize('author').trim();
-  req.sanitize('summary').trim();
-  req.sanitize('isbn').trim();
-  req.sanitize('genre').escape();
-
-  var book = new Book(
-    {
-      title: req.body.title,
-      author: req.body.author,
-      summary: req.body.summary,
-      isbn: req.body.isbn,
-      genre: (typeof req.body.genre === 'undefined') ? [] : req.body.genre.split(","),
-      _id: req.params.id //This is required, or a new ID will be assigned!
-    });
+  var book = createBookFromRequest(req);
 
   var errors = req.validationErrors();
   if (errors) {
@@ -280,8 +237,7 @@ exports.book_update_post = function (req, res, next) {
       res.render('book_form', { title: 'Update Book', authors: results.authors, genres: results.genres, book: book, errors: errors });
     });
 
-  }
-  else {
+  } else {
     // Data from form is valid. Update the record.
     Book.findByIdAndUpdate(req.params.id, book, {}, function (err, thebook) {
       if (err) { return next(err); }
@@ -290,3 +246,47 @@ exports.book_update_post = function (req, res, next) {
     });
   }
 };
+
+sanitizeRequest = function (req) {
+  req.sanitize('title').escape();
+  req.sanitize('author').escape();
+  req.sanitize('summary').escape();
+  req.sanitize('isbn').escape();
+  req.sanitize('title').trim();
+  req.sanitize('author').trim();
+  req.sanitize('summary').trim();
+  req.sanitize('isbn').trim();
+  req.sanitize('code').trim();
+  req.sanitize('genre').escape();
+
+  sanitizeId(req);
+}
+
+sanitizeId = function (req){
+  //Sanitize id passed in. 
+  req.sanitize('id').escape();
+  req.sanitize('id').trim();
+}
+
+validateRequest = function (req) {
+  //Check other data
+  req.checkBody('title', 'Title must not be empty.').notEmpty();
+  req.checkBody('author', 'Author must not be empty').notEmpty();
+  req.checkBody('summary', 'Summary must not be empty').notEmpty();
+  req.checkBody('isbn', 'ISBN must not be empty').notEmpty();
+  req.checkBody('code', 'Barcode must not be empty').notEmpty();
+}
+
+createBookFromRequest = function (req) {
+  console.log(req.params.id);
+  return new Book(
+    {
+      title: req.body.title,
+      author: req.body.author,
+      summary: req.body.summary,
+      isbn: req.body.isbn,
+      code: req.body.code,
+      genre: (typeof req.body.genre === 'undefined') ? [] : req.body.genre.split(","),
+      _id: req.params.id || undefined//This is required, or a new ID will be assigned!
+    });
+}
