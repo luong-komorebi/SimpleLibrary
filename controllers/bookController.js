@@ -277,6 +277,7 @@ validateRequest = function (req) {
   req.checkBody('code', 'Barcode must not be empty').notEmpty();
 }
 
+//create an instance of Book from request
 createBookFromRequest = function (req) {
   console.log(req.params.id);
   return new Book(
